@@ -7,7 +7,7 @@ pipeline{
     stages{
         stage('Checkout'){
             steps{
-                git ''
+                git 'https://github.com/mdasifotc/edu_prac.git'
             }
         }
         stage('compile'){
