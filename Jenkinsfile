@@ -6,30 +6,30 @@ pipeline{
     agent any
     stages{
         stage('Checkout'){
+            
             steps{
-                git 'https://github.com/mdasifotc/edu_prac.git'
+                git 'https://github.com/devops-trainer/DevOpsClassCodes.git'
             }
         }
         stage('compile'){
-           
+            
             steps{
                 sh 'mvn compile'
             }
-            
         }
         stage('codeReview'){
+           
             steps{
                 sh 'mvn pmd:pmd'
             }
-            post { 
-                always
-            {
-            pmd pattern : 'target/pmd.xml'
-            }
+            post{
+                always{
+                    pmd pattern: 'target/pmd.xml'
+                }
             }
         }
         stage('UnitTesting'){
-           
+          
             steps{
                 sh 'mvn test'
             }
@@ -39,14 +39,14 @@ pipeline{
             steps{
                 sh 'mvn cobertura:cobertura -Dcobertura.report.format=xml'
             }
-            post {
-                always {
-                  
+            post{
+                always{
+                    cobertura coberturaReportFile: 'target/site/cobertura/coverage.xml'
                 }
             }
         }
         stage('Package'){
-            
+            agent any
             steps{
                 sh 'mvn package'
             }
