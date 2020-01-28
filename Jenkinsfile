@@ -15,12 +15,18 @@ pipeline{
             steps{
                 sh 'mvn compile'
             }
+            
         }
         stage('codeReview'){
             steps{
                 sh 'mvn pmd:pmd'
             }
-     
+            post { 
+                always
+            {
+            pmd pattern : 'target/pmd.xml'
+            }
+            }
         }
         stage('UnitTesting'){
            
@@ -33,7 +39,11 @@ pipeline{
             steps{
                 sh 'mvn cobertura:cobertura -Dcobertura.report.format=xml'
             }
-      
+            post {
+                always {
+                  
+                }
+            }
         }
         stage('Package'){
             
